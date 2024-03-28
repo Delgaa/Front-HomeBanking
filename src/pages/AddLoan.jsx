@@ -121,7 +121,7 @@ function AddLoan() {
             {loading && <h2>Loading...</h2>}
 
             <div className='border rounded-xl p-6 w-[90%] md:w-[70%] lg:w-[50%] opacity-90 bg-[#004d74] mb-5'>
-            <form className='flex flex-col items-center justify-center gap-2 w-full' onSubmit={handLeSubmit}>
+            <form className='flex flex-col items-center justify-center w-full' onSubmit={handLeSubmit}>
                 <fieldset className='w-[75%]'>
                     <label className='flex flex-col gap-1'>Select loan:
                         <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-sky-700 dark:border-blue-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
@@ -134,10 +134,10 @@ function AddLoan() {
                                 loans.map(loan => {return <OptionLoan key={loan.id} name={loan.name}/>})
                             }
                         </select>
-                        {
-                            errorMessageName && <p className='text-red-400 font-medium'>{errorMessageName}</p>
-                        }
                     </label>
+                        {
+                            errorMessageName ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageName}</p> : <div className=' h-5'></div>
+                        }
                 </fieldset>
 
                 <fieldset className='w-[75%]'>
@@ -151,10 +151,10 @@ function AddLoan() {
                                 clients.accounts?.map(loan => {return <OptionAccount key={loan.id} number={loan.number}/>})
                             }
                         </select>
-                        {
-                            errorMessageAccount && <p className='text-red-400 font-medium'>{errorMessageAccount}</p>
-                        }
                     </label>
+                        {
+                            errorMessageAccount ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageAccount}</p> : <div className=' h-5'></div>
+                        }
                 </fieldset>
 
                 <fieldset className='w-[75%]'>
@@ -164,10 +164,10 @@ function AddLoan() {
                                     Select loan first
                                     </p>
                             }
-                            {
-                                errorMessageAmount && <p className='text-red-400 font-medium'>{errorMessageAmount}</p>
-                            }
                         </label>
+                            {
+                                errorMessageAmount ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageAmount}</p>: <div className=' h-5'></div>
+                            }
                 </fieldset>
 
                 <fieldset className='w-[75%]'>
@@ -181,10 +181,10 @@ function AddLoan() {
                                 loanSelect != '' && amountLoan?.payments.map(payment=>{return <OptionPayment key={payment} payments={payment}/>})
                             }
                         </select>
-                        {
-                            errorMessagePayment && <p className='text-red-400 font-medium'>{errorMessagePayment}</p>
-                        }
                     </label>
+                        {
+                            errorMessagePayment ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessagePayment}</p>: <div className=' h-5'></div>
+                        }
                 </fieldset>
                 <div className='flex flex-wrap gap-6 justify-center w-full'>
                     <button className=' bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded' type="submit">Apply</button>

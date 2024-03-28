@@ -39,7 +39,7 @@ function AccountDetail() {
         {loading && <h2>Loading...</h2>}
         {user != null &&
           <Account>
-            <div  className='border rounded-xl p-6 bgAccount opacity-90 md:w-[50%]'>
+            <div  className='border rounded-xl p-6 bgAccount opacity-90 md:w-[60%] lg:w-[50%]'>
               <h3 className='md:pl-5 text-lg font-medium pb-6'>Number: {user.number}</h3>
               <p className='md:pl-5 flex  text-lg '>Amount: <span className='text-xl pl-6 self-end'>{user.balance?.toLocaleString("es-AR",{ style: "currency", currency: "ARS" })}</span></p>
               <p className='md:pl-5 text-lg  pt-6'>Creation date: {user.creationDate}</p>

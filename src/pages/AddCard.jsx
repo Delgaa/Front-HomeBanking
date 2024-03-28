@@ -95,7 +95,7 @@ function AddCard() {
       <h1 className='text-3xl text-center pt-6'>Apply for a card</h1>
 
       <div className='border rounded-xl p-6 w-[90%] md:w-[70%] lg:w-[50%] bg-[#004d74] mb-5'>
-      <form onSubmit={handLeSubmit} className='flex flex-col items-center gap-6 w-full'>
+      <form onSubmit={handLeSubmit} className='flex flex-col items-center  w-full'>
         <fieldset className='w-[75%]'>
           <label className='flex flex-col gap-1'>Select card type:
               <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-sky-700 dark:border-blue-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
@@ -106,10 +106,10 @@ function AddCard() {
                   TYPES.map(type => {return <option key={type} value={type.toUpperCase()}>{type}</option>})
                 }
               </select>
-              {
-                errorMessageType && <p className='text-red-400 font-medium'>{errorMessageType}</p>
-              }
           </label>
+              {
+                errorMessageType ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageType}</p> : <div className=' h-5'></div>
+              }
           </fieldset>
 
           <fieldset  className='w-[75%]'> 
@@ -122,10 +122,10 @@ function AddCard() {
                   COLORS.map(color => {return <option key={color} value={color.toUpperCase()}>{color}</option>})
                 }
               </select>
-              {
-                errorMessageColor && <p className='text-red-400 font-medium'>{errorMessageColor}</p>
-              }
           </label>
+              {
+                errorMessageColor ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageColor}</p>: <div className=' h-5'></div>
+              }
         </fieldset>
         <div className='flex gap-6 justify-center'>
         <button type="submit" className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'>Apply</button>

@@ -96,7 +96,7 @@ const Transaction = () => {
             <img className='w-[75px] self-end pt-5 pr-5 md:absolute' src='/logo.png' alt="logo-bank" />
             <h1 className='text-3xl text-center py-6'>Make a transfer</h1>
             <div className='border rounded-xl p-6 w-[90%] md:w-[70%] lg:w-[50%] opacity-95 bg-[#004d74] mb-5 flex justify-center'>
-                <form onSubmit={handleSubmit} className='flex flex-col gap-2 w-9/12'>
+                <form onSubmit={handleSubmit} className='flex flex-col w-9/12'>
                         <label htmlFor="tipoDestino" className='flex flex-col gap-2' onChange={handLeChangeTypeDestination}>Type of destination:
                             <div className='flex gap-5'>
                                 <label className='flex gap-2'>
@@ -123,10 +123,10 @@ const Transaction = () => {
                                     ))
                                 }
                             </select>
-                            {
-                                errorMessageOrigin && <p className='text-red-400 font-medium'>{errorMessageOrigin}</p>
-                            }
                         </label>
+                            {
+                                errorMessageOrigin ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageOrigin}</p> : <div className=' h-5'></div>
+                            }
                     </div>
                     <div>
                         <label className='flex flex-col gap-2'>Account Destination:
@@ -158,10 +158,10 @@ const Transaction = () => {
                                     >Select option first</p>
                                 )
                             }
-                            {
-                                errorMessageDestination && <p className='text-red-400 font-medium'>{errorMessageDestination}</p>
-                            }
                         </label>
+                            {
+                                errorMessageDestination ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageDestination}</p> : <div className=' h-5'></div>
+                            }
                     </div>
                     <div>
                         <label className='flex flex-col gap-2'>Amount:
@@ -172,10 +172,10 @@ const Transaction = () => {
                         min={'1'}
                         placeholder='E.G. 1111'/>
                         
-                        {
-                            errorMessageAmount && <p className='text-red-400 font-medium'>{errorMessageAmount}</p>
-                        }
                         </label>
+                        {
+                            errorMessageAmount ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageAmount}</p> : <div className=' h-5'></div>
+                        }
                     </div>
                     <div>
                         <label className='flex flex-col gap-2'>Description:
@@ -184,10 +184,10 @@ const Transaction = () => {
                         type="text" 
                         onChange={handLeChange} 
                         placeholder='E.G. Salary'/>
-                        {
-                            errorMessageDescription && <p className='text-red-400 font-medium'>{errorMessageDescription}</p>
-                        }
                         </label>
+                        {
+                            errorMessageDescription ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageDescription}</p> : <div className=' h-5'></div>
+                        }
                     </div>
                     <div className='flex gap-6 justify-center'>
                         <button type='submit' className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'>Transfer</button>
