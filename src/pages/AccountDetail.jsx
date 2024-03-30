@@ -35,7 +35,7 @@ function AccountDetail() {
     <main className='bg-[#395886] flex pb-5 flex-col items-center flex-1 md:rounded-l-3xl'>
         <img className='w-[75px] self-end pt-5 pr-5 md:absolute' src='/logo.png'  alt="logo-bank" />
         <h1 className='text-3xl text-center py-6 text-white'>Your account selected</h1>
-      <div className='flex flex-wrap gap-6 w-[90%] justify-center'>
+      <div className='flex flex-col gap-6 w-[90%] items-center justify-center'>
         {loading && <h2>Loading...</h2>}
         {user != null &&
           <Account>

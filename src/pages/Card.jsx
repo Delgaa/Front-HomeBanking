@@ -42,7 +42,7 @@ function Card() {
       {
         user.cards?.length > 0 ? <h1 className='text-3xl text-center py-6'>Your cards:</h1> : <h1 className='text-3xl w-full text-center py-6'>You don't have cards</h1>
       }
-      {loading && <h2 className='text-xl py-6 '>Loading...</h2>}
+      {loading && <h2 className='text-xl py-6 w-full text-center'>Loading...</h2>}
 
       <div className='flex flex-wrap justify-center gap-6'>
         {
