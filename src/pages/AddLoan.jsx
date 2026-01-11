@@ -42,7 +42,7 @@ function AddLoan() {
 
     const handLeChange = (e) => {
         setLoanSelect(e.target.value)
-        setNewLoan(prev => ({ ...prev, name: e.target.value, payments: "", amount: "" })) // Reset dependent fields
+        setNewLoan(prev => ({ ...prev, name: e.target.value, payments: "", amount: "" })) 
     }
 
     const handLeChangeNew = (e) => {
@@ -75,7 +75,7 @@ function AddLoan() {
                             text: 'El préstamo ha sido acreditado en tu cuenta.',
                             confirmButtonColor: '#1e40af'
                         }).then(() => {
-                            navigate('/loan'); // Or wherever appropriate
+                            navigate('/loan');
                         });
                         setNewLoan({name: "", amount: "", payments: "", numberAccount: ""});
                         setLoanSelect("");
@@ -110,7 +110,6 @@ function AddLoan() {
 
     return (
         <div className='flex flex-col flex-1 w-full gap-8 max-w-4xl mx-auto'>
-            {/* Header */}
             <div className="flex items-center gap-4">
                 <Link to="/loan" className="p-2 rounded-full hover:bg-slate-200 transition-colors text-text-muted hover:text-primary">
                     <FontAwesomeIcon icon={faArrowLeft} />
@@ -125,7 +124,6 @@ function AddLoan() {
                     <form className='flex flex-col gap-6' onSubmit={handLeSubmit}>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* Loan Type Selection */}
                             <div className="flex flex-col gap-1">
                                 <label className="text-sm font-medium text-text-muted ml-1">Tipo de Préstamo</label>
                                 <select 
@@ -142,7 +140,6 @@ function AddLoan() {
                                 {errors.name && <span className="text-xs text-red-500 ml-1">{errors.name}</span>}
                             </div>
 
-                            {/* Account Selection */}
                             <div className="flex flex-col gap-1">
                                 <label className="text-sm font-medium text-text-muted ml-1">Cuenta de Destino</label>
                                 <select 
@@ -160,7 +157,6 @@ function AddLoan() {
                             </div>
                         </div>
 
-                        {/* Amount & Payments - Only show if loan selected */}
                         <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 transition-opacity duration-300 ${loanSelect ? 'opacity-100' : 'opacity-50 pointer-events-none'}`}>
                             
                              <FormInput
@@ -190,8 +186,6 @@ function AddLoan() {
                                 {errors.payments && <span className="text-xs text-red-500 ml-1">{errors.payments}</span>}
                             </div>
                         </div>
-
-                        {/* Summary / Preview could go here */}
 
                         <div className='flex gap-4 pt-4'>
                             <button 

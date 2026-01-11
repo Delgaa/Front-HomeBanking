@@ -34,7 +34,6 @@ function Loan() {
 
   return (
     <div className='flex flex-col flex-1 w-full gap-8'>
-      {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-2xl shadow-soft">
          <div>
             <h1 className='text-3xl font-bold text-primary-dark'>

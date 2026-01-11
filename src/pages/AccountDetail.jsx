@@ -34,7 +34,6 @@ function AccountDetail() {
 
   return (
     <div className='flex flex-col flex-1 w-full gap-8'>
-       {/* Breadcrumb / Back */}
        <div className="flex items-center gap-4">
           <Link to="/home" className="p-2 rounded-full hover:bg-slate-200 transition-colors text-text-muted hover:text-primary">
              <FontAwesomeIcon icon={faArrowLeft} />
@@ -46,14 +45,12 @@ function AccountDetail() {
 
       {user != null && !loading && (
         <>
-            {/* Account Info Card */}
             <div className='
                 w-full md:w-2/3 lg:w-1/2 mx-auto
                 relative overflow-hidden rounded-2xl p-8 
-                bg-gradient-to-r from-primary to-primary-dark
+                bg-linear-to-r from-primary to-primary-dark
                 text-white shadow-card
             '>
-                 {/* Decorative Circle */}
                  <div className="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 rounded-full bg-white/10 blur-2xl"></div>
 
                  <div className="relative z-10 flex flex-col gap-6">
@@ -84,7 +81,6 @@ function AccountDetail() {
                  </div>
             </div>
 
-            {/* Transactions Section */}
             <div className="flex flex-col gap-4">
                 <h2 className='text-xl font-bold text-text-main px-2'>Historial de Movimientos</h2>
                 {user.transactions?.length > 0 ? (

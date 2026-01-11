@@ -35,7 +35,6 @@ function Card() {
 
   return (
     <div className='flex flex-col flex-1 w-full gap-8'>
-       {/* Header */}
        <div className="flex justify-between items-center">
          <h1 className='text-2xl font-bold text-text-main'>Mis Tarjetas</h1>
          {user.cards?.length < 6 && (
@@ -60,7 +59,6 @@ function Card() {
       )}
 
       <div className='flex flex-col gap-8'>
-        {/* Credit Cards */}
         {cardCredit?.length > 0 && (
           <section>
              <h2 className='text-lg font-semibold text-text-muted mb-4 border-b border-slate-200 pb-2'>Tarjetas de Crédito</h2>
@@ -80,7 +78,6 @@ function Card() {
           </section>
         )}
 
-        {/* Debit Cards */}
         {cardDebit?.length > 0 && (
           <section>
              <h2 className='text-lg font-semibold text-text-muted mb-4 border-b border-slate-200 pb-2'>Tarjetas de Débito</h2>

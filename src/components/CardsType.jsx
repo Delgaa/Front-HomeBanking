@@ -2,12 +2,11 @@ import React from 'react'
 
 function CardsType({number, expiry, cvc, name, color, type}) {
   
-  // Map color to background logic
   const bgClass = {
     'TITANIUM': 'bg-[url("/titanium.jpg")] text-gray-300',
     'SILVER': 'bg-[url("/silver.jpg")] text-gray-800',
     'GOLD': 'bg-[url("/gold.jpg")] text-gray-800'
-  }[color] || 'bg-slate-700 text-white'; // Fallback
+  }[color] || 'bg-slate-700 text-white'; 
 
   const textClass = color === 'TITANIUM' ? 'text-gray-300' : 'text-gray-800';
   const labelClass = color === 'TITANIUM' ? 'text-gray-400' : 'text-gray-600';
@@ -18,7 +17,6 @@ function CardsType({number, expiry, cvc, name, color, type}) {
         w-80 h-48 p-5 rounded-2xl bg-cover bg-center flex flex-col justify-between
         ${bgClass}
     `}>
-      {/* Top Row: Logo & Chip */}
       <div className='flex justify-between items-center'>
         <img src='/pincard.svg' alt="chip" className='w-10 opacity-90'/>
         <img 
@@ -28,14 +26,12 @@ function CardsType({number, expiry, cvc, name, color, type}) {
         />
       </div>
 
-      {/* Middle: Number */}
       <div className="mt-2">
         <h2 className={`text-xl font-mono tracking-widest drop-shadow-sm ${textClass}`}>
             {number}
         </h2>
       </div>
 
-      {/* Bottom: Details */}
       <div className='flex justify-between items-end'>
         <div>
            <p className={`text-[10px] uppercase tracking-wider ${labelClass}`}>Titular</p>

@@ -20,7 +20,6 @@ function AddAccount() {
           headers:{ Authorization: `Bearer ${token}` }
         })
         .then(async res => {
-           // Success Alert
            Swal.fire({
              icon: 'success',
              title: '¡Cuenta Creada!',
@@ -52,7 +51,6 @@ function AddAccount() {
 
   return (
     <div className='flex flex-col flex-1 w-full gap-8 max-w-4xl mx-auto'>
-      {/* Header */}
        <div className="flex items-center gap-4">
             <Link to="/home" className="p-2 rounded-full hover:bg-slate-200 transition-colors text-text-muted hover:text-primary">
                 <FontAwesomeIcon icon={faArrowLeft} />
@@ -61,20 +59,16 @@ function AddAccount() {
         </div>
 
       <div className='bg-white rounded-2xl shadow-card flex flex-col md:flex-row overflow-hidden'>
-        
-        {/* Visual Side (Desktop) */}
-        <div className="hidden md:flex md:w-1/3 bg-gradient-to-br from-primary-dark to-primary p-8 flex-col justify-between text-white relative overflow-hidden">
+        <div className="hidden md:flex md:w-1/3 bg-linear-to-br from-primary-dark to-primary p-8 flex-col justify-between text-white relative overflow-hidden">
             <div className="relative z-10">
                <FontAwesomeIcon icon={faShieldAlt} className="text-4xl mb-4 text-blue-300" />
                <h3 className="text-xl font-bold mb-2">Seguridad Garantizada</h3>
                <p className="text-blue-100 text-sm">Tus nuevas cuentas están protegidas con los más altos estándares de seguridad bancaria.</p>
             </div>
-            {/* Decorative circles */}
             <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
             <div className="absolute bottom-0 left-0 -ml-10 -mb-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
         </div>
 
-        {/* Content Side */}
         <div className="w-full md:w-2/3 p-8 flex flex-col gap-6">
             <div className="flex items-center gap-3 text-primary border-b border-slate-100 pb-4">
                 <FontAwesomeIcon icon={faFileContract} className="text-2xl" />

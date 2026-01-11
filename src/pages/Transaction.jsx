@@ -92,7 +92,6 @@ const Transaction = () => {
 
     return (
         <div className='flex flex-col flex-1 w-full gap-8'>
-            {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-2xl shadow-soft">
                 <div>
                     <h1 className='text-3xl font-bold text-primary-dark'>
@@ -102,12 +101,9 @@ const Transaction = () => {
                 </div>
             </div>
 
-            {/* Form Section */}
             <div className="flex justify-center">
                 <div className='bg-white p-8 rounded-2xl shadow-soft w-full md:w-3/4 lg:w-2/3'>
                     <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
-                        
-                        {/* Destination Type */}
                         <div>
                             <label className='block mb-2 text-sm font-medium text-text-main'>Tipo de destino</label>
                             <div className='flex gap-6' onChange={handLeChangeTypeDestination}>
@@ -122,7 +118,6 @@ const Transaction = () => {
                             </div>
                         </div>
 
-                        {/* Origin Account */}
                         <div>
                             <label className='block mb-2 text-sm font-medium text-text-main'>Cuenta de Origen</label>
                             <select 
@@ -138,7 +133,6 @@ const Transaction = () => {
                             {errorMessageOrigin && <p className='mt-1 text-red-500 text-sm'>{errorMessageOrigin}</p>}
                         </div>
 
-                        {/* Destination Account */}
                         <div>
                             <label className='block mb-2 text-sm font-medium text-text-main'>Cuenta de Destino</label>
                             {tipoDestino === 'propio' && (
@@ -170,7 +164,6 @@ const Transaction = () => {
                             {errorMessageDestination && <p className='mt-1 text-red-500 text-sm'>{errorMessageDestination}</p>}
                         </div>
 
-                        {/* Amount */}
                         <div>
                             <label className='block mb-2 text-sm font-medium text-text-main'>Monto</label>
                             <div className="relative">
@@ -189,7 +182,6 @@ const Transaction = () => {
                             {errorMessageAmount && <p className='mt-1 text-red-500 text-sm'>{errorMessageAmount}</p>}
                         </div>
 
-                        {/* Description */}
                         <div>
                             <label className='block mb-2 text-sm font-medium text-text-main'>Descripción</label>
                             <input 
@@ -202,7 +194,6 @@ const Transaction = () => {
                             {errorMessageDescription && <p className='mt-1 text-red-500 text-sm'>{errorMessageDescription}</p>}
                         </div>
 
-                        {/* Actions */}
                         <div className='flex gap-4 justify-end mt-4'>
                             <Link to="/home">
                                 <button type="button" className='py-2.5 px-5 text-sm font-medium text-text-muted focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary focus:z-10 focus:ring-4 focus:ring-gray-200 transition-all'>

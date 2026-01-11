@@ -12,11 +12,10 @@ function Client({accounts}) {
           <Account>
             <div className='
               h-full relative overflow-hidden rounded-2xl p-6 transition-all duration-300
-              bg-gradient-to-br from-primary-dark to-primary
+              bg-linear-to-br from-primary-dark to-primary
               text-white shadow-card hover:shadow-2xl hover:-translate-y-1
               group-hover:ring-2 group-hover:ring-offset-2 group-hover:ring-primary
             '>
-              {/* Decorative Circle */}
               <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 rounded-full bg-white/10 blur-xl"></div>
               
               <div className="relative z-10 flex flex-col h-full justify-between gap-6">

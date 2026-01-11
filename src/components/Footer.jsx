@@ -4,9 +4,9 @@ import { faInstagram, faFacebook, faTwitter } from '@fortawesome/free-brands-svg
 
 function Footer() {
   return (
-    <footer className='w-full py-6 mt-8 border-t border-slate-200 bg-surface text-text-muted flex flex-col md:flex-row items-center justify-between px-8 gap-4 text-sm'>
+    <footer className='w-full py-3 mt-8 border-t border-slate-200 bg-surface text-text-muted flex flex-col md:flex-row items-center justify-between px-8 gap-4 text-sm'>
         <div>
-            <p>&copy; 2026 MindBank - Todos los derechos reservados.</p>
+            <p>&copy; {new Date().getFullYear()} MindBank - Todos los derechos reservados.</p>
         </div>
         <div className='flex gap-6'>
             <a href="#" className='hover:text-primary transition-colors'><FontAwesomeIcon className='text-xl' icon={faInstagram} /></a>

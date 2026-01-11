@@ -50,7 +50,6 @@ function AddCard() {
 
   return (
     <div className='flex flex-col flex-1 w-full gap-8 max-w-4xl mx-auto'>
-       {/* Header */}
        <div className="flex items-center gap-4">
             <Link to="/cards" className="p-2 rounded-full hover:bg-slate-200 transition-colors text-text-muted hover:text-primary">
                 <FontAwesomeIcon icon={faArrowLeft} />
@@ -60,8 +59,6 @@ function AddCard() {
 
         <div className='bg-white rounded-2xl shadow-card p-8'>
             <form onSubmit={handLeSubmit} className='flex flex-col gap-8'>
-                
-                {/* Step 1: Card Type */}
                 <section>
                     <h3 className="text-lg font-semibold text-text-main mb-4">1. Tipo de Tarjeta</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -85,7 +82,6 @@ function AddCard() {
                     {errors.type && <p className="text-red-500 text-sm mt-2">{errors.type}</p>}
                 </section>
 
-                {/* Step 2: Membership (Color) */}
                 <section>
                     <h3 className="text-lg font-semibold text-text-main mb-4">2. Membresía</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -101,7 +97,6 @@ function AddCard() {
                                     }
                                 `}
                             >
-                                {/* Background Preview Strip */}
                                 <div className={`w-full h-12 rounded-lg bg-cover bg-center shadow-sm`} style={{ backgroundImage: `url('/${color.toLowerCase()}.jpg')` }}></div>
                                 
                                 <span className="font-medium text-sm capitalize">{color}</span>
@@ -116,7 +111,6 @@ function AddCard() {
                      {errors.color && <p className="text-red-500 text-sm mt-2">{errors.color}</p>}
                 </section>
 
-                {/* Actions */}
                 <div className='flex gap-4 pt-4 border-t border-slate-100'>
                     <button 
                         type="submit" 

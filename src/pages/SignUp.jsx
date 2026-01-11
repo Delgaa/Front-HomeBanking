@@ -19,7 +19,7 @@ const SignUp = () => {
 
     const handleChange = (e) => {
             setNewClient({ ...newClient, [e.target.name]: e.target.value });
-            setErrors({ ...errors, [e.target.name]: null }); // Clear error for modified field
+            setErrors({ ...errors, [e.target.name]: null }); 
     };
 
     const handleSubmit = (e) => {
@@ -47,10 +47,9 @@ const SignUp = () => {
                 })
             }
         }).catch( err => {
-            // Simplified error mapping
             const msg = err.response?.data;
             const newErrors = {};
-            if (msg === 'Lastname has no content') newErrors.lastName = msg;
+            if (msg === 'Last name has no content') newErrors.lastName = msg;
             if (msg === 'Name has no content') newErrors.name = msg;
             if (msg === 'Password has no content' || msg?.includes('longer than')) newErrors.password = msg;
             if (msg === 'Email is already registered' || msg === 'Email has no content') newErrors.email = msg;
