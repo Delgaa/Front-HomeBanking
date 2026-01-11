@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Account from '../components/Account';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import authActions from '../redux/actions/auth.actions';
 
@@ -33,34 +33,85 @@ function Loan() {
     },[])
 
   return (
-    <main className='bg-[#395886] flex pb-5 flex-col flex-1 md:rounded-l-3xl'>
-      <img className='w-[75px] self-end pt-5 pr-5 md:absolute' src='/logo.png'  alt="logo-bank" />
-      <section className='flex flex-col items-center gap-4 mb-5'>
-        {
-          user.loans?.length > 0 ? <h2 className='text-3xl text-center py-6'>Your loans active</h2> : null
-        }
-        
+    <div className='flex flex-col flex-1 w-full gap-8'>
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-2xl shadow-soft">
+         <div>
+            <h1 className='text-3xl font-bold text-primary-dark'>
+              Mis Préstamos
+            </h1>
+            <p className="text-text-muted mt-1">Gestiona tus préstamos activos y solicita nuevos créditos</p>
+         </div>
+         <div className="hidden md:block">
+            <span className="text-sm font-medium px-3 py-1 bg-blue-100 text-blue-700 rounded-full">
+               Créditos Activos: {user.loans?.length || 0}
+            </span>
+         </div>
+      </div>
 
-        {loading && <h2 className='text-xl text-white py-6 '>Loading...</h2>}
-        <div className='flex flex-wrap justify-center gap-6'>
-        {
-          user.loans?.length > 0 ? user.loans?.map(loan => {return <Account key={loan.id}>
-          <div className='border rounded-xl p-6 w-[284px] opacity-90 bgLoan'>
-            <h3 className='text-lg font-medium pb-6'>Type: {loan.name}</h3>
-            <p className='flex  text-lg '>Amount: <span className='text-xl pl-6 self-end'>{loan.amount.toLocaleString("es-AR",{ style: "currency", currency: "ARS" })}</span></p>
-            <p className='text-lg  pt-6'>Payments: {loan.payments}</p>
-          </div>
-          </Account>}): <h2 className='text-3xl text-white text-center py-6 w-[80%]'>Does not have loans</h2>
-        }
-        {
-          user.loans?.length == 3 ? <h2 className='text-xl py-6 text-center w-full'>You have 3 loans, you can't ask for more</h2>
-          :(<div className='w-full flex justify-center'>
-          <Link to={`/newLoan/${user.id}`}><button className='py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-900 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'><FontAwesomeIcon icon={faPlus}/>New loan</button></Link>
-          </div>)
-        }
+      {loading && (
+        <div className="flex justify-center p-10">
+           <FontAwesomeIcon icon={faSpinner} spin className="text-4xl text-primary" />
         </div>
-      </section>
-    </main>
+      )}
+
+      {!loading && (
+        <div className="flex flex-col gap-6">
+          <div className="flex justify-between items-center">
+             <h2 className="text-xl font-bold text-text-main">Préstamos Activos</h2>
+             {user.loans?.length < 3 ? (
+                <Link to={`/newLoan/${user.id}`}>
+                  <button className='py-2 px-4 inline-flex items-center gap-2 text-sm font-semibold rounded-lg bg-primary hover:bg-primary-dark text-white transition-all shadow-md active:scale-95'>
+                    <FontAwesomeIcon icon={faPlus} /> Solicitar Préstamo
+                  </button>
+                </Link>
+             ) : (
+                <span className="text-sm text-text-muted">Límite de préstamos alcanzado</span>
+             )}
+          </div>
+          
+          {user.loans?.length > 0 ? (
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+              {user.loans.map(loan => (
+                <div key={loan.id} className='bg-white p-6 rounded-xl shadow-soft hover:shadow-card transition-shadow border border-slate-100 relative overflow-hidden group'>
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                         <FontAwesomeIcon icon={faPlus} className="text-6xl text-primary transform rotate-12" />
+                    </div>
+                    
+                    <div className="relative z-10">
+                        <h3 className='text-lg font-bold text-primary-dark mb-4 border-b border-slate-100 pb-2'>{loan.name}</h3>
+                        <div className="space-y-3">
+                            <div className='flex justify-between items-center'>
+                                <span className="text-text-muted text-sm">Monto Original</span>
+                                <span className='text-lg font-bold text-text-main'>
+                                    {loan.amount.toLocaleString("es-AR", { style: "currency", currency: "ARS" })}
+                                </span>
+                            </div>
+                            <div className='flex justify-between items-center'>
+                                <span className="text-text-muted text-sm">Cuotas Restantes</span>
+                                <span className='text-sm font-medium bg-slate-100 px-2 py-1 rounded text-text-main'>
+                                    {loan.payments}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+             <div className="bg-white p-12 rounded-xl shadow-soft text-center flex flex-col items-center gap-4">
+                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-slate-400">
+                    <FontAwesomeIcon icon={faPlus} className="text-2xl" />
+                </div>
+                <div>
+                    <h3 className="text-lg font-semibold text-text-main">No tienes préstamos activos</h3>
+                    <p className="text-text-muted">Solicita un nuevo crédito para financiar tus proyectos.</p>
+                </div>
+             </div>
+          )}
+        </div>
+      )}
+    </div>
   )
 }
 

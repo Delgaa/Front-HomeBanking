@@ -1,73 +1,59 @@
 import React from 'react'
 
 function CardsType({number, expiry, cvc, name, color, type}) {
+  
+  // Map color to background logic
+  const bgClass = {
+    'TITANIUM': 'bg-[url("/titanium.jpg")] text-gray-300',
+    'SILVER': 'bg-[url("/silver.jpg")] text-gray-800',
+    'GOLD': 'bg-[url("/gold.jpg")] text-gray-800'
+  }[color] || 'bg-slate-700 text-white'; // Fallback
+
+  const textClass = color === 'TITANIUM' ? 'text-gray-300' : 'text-gray-800';
+  const labelClass = color === 'TITANIUM' ? 'text-gray-400' : 'text-gray-600';
+
   return (
-    <>
-    {
-      color === 'TITANIUM' && (
-        <div id='cardsTitanium' className='shadow-2xl w-72 h-44 p-3 rounded-xl bg-[url("/titanium.jpg")]'>
-        <div className=' w-full h-11 flex justify-between items-center'>
-          <img src='/pincard.svg' alt="logo-bank" className='w-10'/>
-          {
-            type === 'CREDIT' ? <img src="/visa.svg" alt="logo-visa" className='w-[60px]' /> : <img src="/mastercard.svg" alt="logo-visa" className='w-[60px]' />
-          }
+    <div className={`
+        relative shadow-card hover:shadow-2xl transition-all duration-300 hover:-translate-y-1
+        w-80 h-48 p-5 rounded-2xl bg-cover bg-center flex flex-col justify-between
+        ${bgClass}
+    `}>
+      {/* Top Row: Logo & Chip */}
+      <div className='flex justify-between items-center'>
+        <img src='/pincard.svg' alt="chip" className='w-10 opacity-90'/>
+        <img 
+            src={type.includes('CREDIT') ? "/visa.svg" : "/mastercard.svg"} 
+            alt={type} 
+            className='h-10 w-auto' 
+        />
+      </div>
+
+      {/* Middle: Number */}
+      <div className="mt-2">
+        <h2 className={`text-xl font-mono tracking-widest drop-shadow-sm ${textClass}`}>
+            {number}
+        </h2>
+      </div>
+
+      {/* Bottom: Details */}
+      <div className='flex justify-between items-end'>
+        <div>
+           <p className={`text-[10px] uppercase tracking-wider ${labelClass}`}>Titular</p>
+           <p className={`text-sm font-medium uppercase truncate max-w-[140px] ${textClass}`}>{name}</p>
         </div>
-        <h2 className='mt-6 text-gray-300 text-lg font-semibold w-[210px]'>{number}</h2>
-        <div className='w-full h-8  mt-5 flex  justify-between'>
-          <h2 className='text-gray-300 text-xs uppercase font-semibold '>{name}</h2>
-          <h2 className='text-xs text-gray-300'>| cvv: {cvc} </h2>
-          <div className='w-13 h-10  self-end'>
-            <h2 className='text-gray-300 text-xs text-center'>Valid thru</h2>
-            <h2 className='text-gray-300 text-xs text-center'>{expiry}</h2>
-          </div>
+        
+        <div className="flex flex-col items-end">
+            <div className="flex items-center gap-2">
+                <span className={`text-[9px] uppercase ${labelClass}`}>CVV</span>
+                <span className={`text-xs font-mono ${textClass}`}>{cvc}</span>
+            </div>
+            <div className="flex items-center gap-2 mt-1">
+                <span className={`text-[9px] uppercase ${labelClass}`}>Expira</span>
+                <span className={`text-sm font-mono ${textClass}`}>{expiry}</span>
+            </div>
         </div>
       </div>
-      )
-    }
-    {
-      color === 'SILVER' && (
-        <div id='cardsTitanium' className='shadow-2xl w-72 h-44 p-3 rounded-xl bg-[url("/silver.jpg")]'>
-        <div className=' w-full h-11 flex justify-between items-center'>
-          <img src='/pincard.svg' alt="logo-bank" className='w-10'/>
-          {
-            type === 'CREDIT' ? <img src="/visa.svg" alt="logo-visa" className='w-[60px]' /> : <img src="/mastercard.svg" alt="logo-visa" className='w-[60px]' />
-          }
-        </div>
-        <h2 className='mt-6 text-gray-800 text-lg font-semibold w-[210px]'>{number}</h2>
-        <div className='w-full h-8  mt-5 flex  justify-between'>
-          <h2 className='text-gray-800 text-xs uppercase font-semibold '>{name}</h2>
-          <h2 className='text-xs text-gray-800 font-semibold'>| cvv: {cvc} </h2>
-          <div className='w-13 h-10  self-end'>
-            <h2 className='text-gray-800 text-xs text-center font-semibold'>Valid thru</h2>
-            <h2 className='text-gray-800 text-xs text-center font-semibold'>{expiry}</h2>
-          </div>
-        </div>
-      </div>
-      )
-    }
-    {
-      color === 'GOLD' && (
-        <div id='cardsTitanium' className='shadow-2xl w-72 h-44 p-3 rounded-xl bg-[url("/gold.jpg")]'>
-        <div className=' w-full h-11 flex justify-between items-center'>
-          <img src='/pincard.svg' alt="logo-bank" className='w-10'/>
-            {
-              type === 'CREDIT' ? <img src="/visa.svg" alt="logo-visa" className='w-[60px]' /> : <img src="/mastercard.svg" alt="logo-visa" className='w-[60px]' />
-            }
-        </div>
-        <h2 className='mt-6 text-gray-800 text-lg font-semibold w-[210px]'>{number}</h2>
-        <div className='w-full h-8  mt-5 flex  justify-between'>
-          <h2 className='text-gray-800 text-xs uppercase font-semibold '>{name}</h2>
-          <h2 className='text-xs text-gray-800 font-semibold'>| cvv: {cvc} </h2>
-          <div className='w-13 h-10  self-end'>
-            <h2 className='text-gray-800 text-xs font-semibold text-center'>Valid thru</h2>
-            <h2 className='text-gray-800 text-xs font-semibold text-center'>{expiry}</h2>
-          </div>
-        </div>
-      </div>
-      )
-    }
-    
-      </>
+    </div>
   )
 }
 

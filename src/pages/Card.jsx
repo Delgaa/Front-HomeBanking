@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faCreditCard, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector} from 'react-redux';
 import authActions from '../redux/actions/auth.actions';
 import CardsType from '../components/CardsType';
@@ -13,8 +13,6 @@ function Card() {
 
   const dispatch = useDispatch();
   const {current} = authActions;
-
-
 
   useEffect(() =>{
     setLoading(true)
@@ -36,58 +34,79 @@ function Card() {
   const cardDebit = user.cards?.filter(card => card.type.includes("DEBIT"));
 
   return (
-    <main className='bg-[#395886] flex pb-5 flex-col flex-1 md:rounded-l-3xl'>
-      <CardsType/>
-      <img className='w-[75px] self-end pt-5 pr-5 md:absolute' src='/logo.png'  alt="logo-bank" />
-      {
-        user.cards?.length > 0 ? <h1 className='text-3xl text-center py-6'>Your cards:</h1> : <h1 className='text-3xl w-full text-center py-6'>You don't have cards</h1>
-      }
-      {loading && <h2 className='text-xl py-6 w-full text-center'>Loading...</h2>}
+    <div className='flex flex-col flex-1 w-full gap-8'>
+       {/* Header */}
+       <div className="flex justify-between items-center">
+         <h1 className='text-2xl font-bold text-text-main'>Mis Tarjetas</h1>
+         {user.cards?.length < 6 && (
+            <Link to={`/newCard/${user.id}`}>
+               <button className='py-2 px-4 inline-flex items-center gap-2 text-sm font-semibold rounded-lg bg-primary hover:bg-primary-dark text-white transition-all shadow-md active:scale-95'>
+                  <FontAwesomeIcon icon={faPlus} /> Solicitar Tarjeta
+               </button>
+            </Link>
+         )}
+       </div>
 
-      <div className='flex flex-wrap justify-center gap-6'>
-        {
-          cardCredit?.length > 0 ? (<section className='flex flex-col gap-6'>
-          <h2 className='text-xl pt-6 '>Credit:</h2>
-          {
-            cardCredit?.map(card=> {
-                return ( <CardsType
-                  key={card.id}
-                  number={card.number.replaceAll("-", ' ')}
-                  expiry={card.thruDate.replaceAll("-", '/').slice(2, 7)}
-                  cvc={card.cvv}
-                  name={card.cardHolder}
-                  color={card.color}
-                  type={card.type}/>)})
-          }
-        </section>): null
-        }
-        {
-          cardDebit?.length > 0 ?(<section className='flex flex-col gap-6'>
-          <h2 className='text-xl pt-6 '>Debit:</h2>
-            {
-              cardDebit?.map(card=> {
-                return (
-                  card.type.includes("DEBIT") ? <CardsType
-                  key={card.id}
-                  number={card.number.replaceAll("-", ' ')}
-                  expiry={card.thruDate.replaceAll("-", '/').slice(2, 7)}
-                  cvc={card.cvv}
-                  name={card.cardHolder}
-                  color={card.color}
-                  type={card.type}/> 
-                  : "")})
-                }
-          </section>): null
-        }
-        {
-          user.cards?.length == 6 ? <h2 className='text-xl py-6 text-center w-full'>You have 6 cards, you can't ask for more</h2> 
-          : (<div className='flex flex-col'>
-          <h2 className='text-xl py-6 text-center'>Request card:</h2>
-          <Link to={`/newCard/${user.id}`} className='flex items-end'><button className=' h-44 w-72 py-3 px-4 flex items-center justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-900 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'><FontAwesomeIcon icon={faPlus} /> Add Card</button></Link>
-        </div>)
-        }
+      {loading && (
+         <div className="flex justify-center p-10">
+           <FontAwesomeIcon icon={faSpinner} spin className="text-4xl text-primary" />
+         </div>
+      )}
+
+      {!loading && user.cards?.length === 0 && (
+         <div className="p-8 text-center bg-white rounded-lg shadow-sm border border-slate-200 text-text-muted">
+            No tienes tarjetas asociadas.
+         </div>
+      )}
+
+      <div className='flex flex-col gap-8'>
+        {/* Credit Cards */}
+        {cardCredit?.length > 0 && (
+          <section>
+             <h2 className='text-lg font-semibold text-text-muted mb-4 border-b border-slate-200 pb-2'>Tarjetas de Crédito</h2>
+             <div className="flex flex-wrap gap-6 justify-center md:justify-start">
+               {cardCredit.map(card => (
+                  <CardsType
+                    key={card.id}
+                    number={card.number.replaceAll("-", ' ')}
+                    expiry={card.thruDate.replaceAll("-", '/').slice(2, 7)}
+                    cvc={card.cvv}
+                    name={card.cardHolder}
+                    color={card.color}
+                    type={card.type}
+                  />
+               ))}
+             </div>
+          </section>
+        )}
+
+        {/* Debit Cards */}
+        {cardDebit?.length > 0 && (
+          <section>
+             <h2 className='text-lg font-semibold text-text-muted mb-4 border-b border-slate-200 pb-2'>Tarjetas de Débito</h2>
+             <div className="flex flex-wrap gap-6 justify-center md:justify-start">
+               {cardDebit.map(card => (
+                  <CardsType
+                    key={card.id}
+                    number={card.number.replaceAll("-", ' ')}
+                    expiry={card.thruDate.replaceAll("-", '/').slice(2, 7)}
+                    cvc={card.cvv}
+                    name={card.cardHolder}
+                    color={card.color}
+                    type={card.type}
+                  />
+               ))}
+             </div>
+          </section>
+        )}
       </div>
-    </main>
+
+       {user.cards?.length === 6 && (
+            <p className="text-sm text-text-muted text-center mt-4">
+              Has alcanzado el límite máximo de tarjetas.
+            </p>
+       )}
+    </div>
   )
 }
 

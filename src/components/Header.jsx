@@ -1,59 +1,86 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Anchor from './Anchor'
 import { LINKS_NAV } from '../utils/links'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {faList, faDoorOpen} from "@fortawesome/free-solid-svg-icons"
+import { faBars, faXmark, faRightFromBracket, faBuildingColumns } from "@fortawesome/free-solid-svg-icons"
 import { useDispatch } from 'react-redux'
-import  authActions  from '../redux/actions/auth.actions'
+import authActions from '../redux/actions/auth.actions'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
-function Header() {
-    const [menu, setMenu] = useState(false)
+function Header({ isMobileMenuOpen, setIsMobileMenuOpen }) {
     const dispatch = useDispatch()
-    const {logout} = authActions
+    const { logout } = authActions
     const navigate = useNavigate();
-
-    
-    const toggleMenu = () => {
-        setMenu( !menu )
-    }
 
     const handleLogout = () => {
         Swal.fire({
-            title: "Are you sure you want to go out?",
+            title: "¿Cerrar sesión?",
+            text: "¿Estás seguro de que quieres salir?",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Confirm"
+            confirmButtonColor: "#1e40af", // primary
+            cancelButtonColor: "#64748b", // muted
+            confirmButtonText: "Sí, salir",
+            cancelButtonText: "Cancelar"
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(logout());
                 navigate('/login');
-            }});
+            }
+        });
     }
 
     return (
         <>
-        <button id='moostNav' onClick={toggleMenu} >
-        <FontAwesomeIcon className= 'text-white text-3xl' icon={faList} />
-        </button>
-        <h2 className='absolute z-30 md:z-40 w-[175px] pt-6 pl-4 md:w-[200px] text-center md:pt-2 md:fixed text-[#93b3e2]'>Mind<span className='italic'>Bank</span></h2>
-        <header className={` ${menu ? "isActive" : "" } `}>
-            <div id='contendHeader'>
+            {/* Mobile Top Bar */}
+            <div className="md:hidden flex items-center justify-between p-4 bg-primary-dark text-white shadow-md z-30 relative">
+                <div className="flex items-center gap-2 font-bold text-xl">
+                    <FontAwesomeIcon icon={faBuildingColumns} className="text-secondary" />
+                    <span>Mind<span className="font-light italic text-secondary">Bank</span></span>
+                </div>
+                <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-2xl focus:outline-none">
+                    <FontAwesomeIcon icon={isMobileMenuOpen ? faXmark : faBars} />
+                </button>
+            </div>
 
-            <nav id='nav'>
-                {
-                    LINKS_NAV.map((link) => (<Anchor key ={link.name} href={link.href} icon = {link.icon} content={link.name }></Anchor>))
-                }
-            </nav>
-        </div >
-            <p id='logout' onClick={handleLogout} className='flex flex-col items-center hover:text-red-600 self-start' title='Logout'>
-            <FontAwesomeIcon className='text-2xl' icon={faDoorOpen} />
-            Logout
-            </p>
-        </header>
+            {/* Sidebar Container */}
+            <aside className={`
+                fixed inset-y-0 left-0 z-30 w-64 bg-primary-dark text-white transition-transform duration-300 ease-in-out shadow-2xl
+                md:translate-x-0 md:sticky md:top-0 md:h-screen md:shadow-none flex flex-col
+                ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+            `}>
+                {/* Logo Area (Desktop) */}
+                <div className="hidden md:flex items-center gap-3 p-8 border-b border-primary/20">
+                    <FontAwesomeIcon icon={faBuildingColumns} className="text-3xl text-secondary" />
+                    <h2 className='text-2xl font-bold tracking-wide'>
+                        Mind<span className='font-light italic text-secondary'>Bank</span>
+                    </h2>
+                </div>
+
+                {/* Navigation Links */}
+                <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+                    {LINKS_NAV.map((link) => (
+                        <Anchor 
+                            key={link.name} 
+                            href={link.href} 
+                            icon={link.icon} 
+                            content={link.name} 
+                        />
+                    ))}
+                </nav>
+
+                {/* User Profile / Logout Section */}
+                <div className="p-4 border-t border-primary/20 bg-primary-dark/50">
+                    <button 
+                        onClick={handleLogout} 
+                        className='flex items-center gap-3 w-full px-4 py-3 text-text-light hover:bg-white/10 rounded-lg transition-all duration-200 group'
+                    >
+                        <FontAwesomeIcon className='text-xl text-secondary group-hover:text-white transition-colors' icon={faRightFromBracket} />
+                        <span className="font-medium">Cerrar Sesión</span>
+                    </button>
+                </div>
+            </aside>
         </>
     )
 }

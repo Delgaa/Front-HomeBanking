@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Table from '../components/Table'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
-import Account from '../components/Account'
 import { useDispatch, useSelector } from 'react-redux'
 import authActions from '../redux/actions/auth.actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faWallet, faCalendarAlt, faHashtag } from '@fortawesome/free-solid-svg-icons';
 
 function AccountDetail() {
   const [loading, setLoading] = useState(false)
@@ -28,33 +29,75 @@ function AccountDetail() {
         .catch(err => console.log(err))
         .finally(()=> setLoading(false))
     }
-  }, [])
+  }, [id])
 
 
   return (
-    <main className='bg-[#395886] flex pb-5 flex-col items-center flex-1 md:rounded-l-3xl'>
-        <img className='w-[75px] self-end pt-5 pr-5 md:absolute' src='/logo.png'  alt="logo-bank" />
-        <h1 className='text-3xl text-center py-6 text-white'>Your account selected</h1>
-      <div className='flex flex-col gap-6 w-[90%] items-center justify-center'>
-        {loading && <h2>Loading...</h2>}
-        {user != null &&
-          <Account>
-            <div  className='border rounded-xl p-6 bgAccount opacity-90 md:w-[60%] lg:w-[50%]'>
-              <h3 className='md:pl-5 text-lg font-medium pb-6'>Number: {user.number}</h3>
-              <p className='md:pl-5 flex  text-lg '>Amount: <span className='text-xl pl-6 self-end'>{user.balance?.toLocaleString("es-AR",{ style: "currency", currency: "ARS" })}</span></p>
-              <p className='md:pl-5 text-lg  pt-6'>Creation date: {user.creationDate}</p>
+    <div className='flex flex-col flex-1 w-full gap-8'>
+       {/* Breadcrumb / Back */}
+       <div className="flex items-center gap-4">
+          <Link to="/home" className="p-2 rounded-full hover:bg-slate-200 transition-colors text-text-muted hover:text-primary">
+             <FontAwesomeIcon icon={faArrowLeft} />
+          </Link>
+          <h1 className='text-2xl font-bold text-text-main'>Detalle de Cuenta</h1>
+       </div>
+
+      {loading && <div className="text-center py-10">Cargando detalles...</div>}
+
+      {user != null && !loading && (
+        <>
+            {/* Account Info Card */}
+            <div className='
+                w-full md:w-2/3 lg:w-1/2 mx-auto
+                relative overflow-hidden rounded-2xl p-8 
+                bg-gradient-to-r from-primary to-primary-dark
+                text-white shadow-card
+            '>
+                 {/* Decorative Circle */}
+                 <div className="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 rounded-full bg-white/10 blur-2xl"></div>
+
+                 <div className="relative z-10 flex flex-col gap-6">
+                    <div className="flex justify-between items-start">
+                        <div className="flex flex-col">
+                            <span className="text-blue-200 text-sm mb-1">Saldo Actual</span>
+                            <span className="text-4xl font-bold tracking-tight">
+                                {user.balance?.toLocaleString("es-AR",{ style: "currency", currency: "ARS" })}
+                            </span>
+                        </div>
+                        <FontAwesomeIcon icon={faWallet} className="text-3xl text-blue-300/50" />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 border-t border-white/20 pt-6">
+                        <div>
+                            <div className="flex items-center gap-2 text-blue-200 text-xs uppercase tracking-wider mb-1">
+                                <FontAwesomeIcon icon={faHashtag} /> Número
+                            </div>
+                            <p className="font-mono text-lg">{user.number}</p>
+                        </div>
+                        <div>
+                             <div className="flex items-center gap-2 text-blue-200 text-xs uppercase tracking-wider mb-1">
+                                <FontAwesomeIcon icon={faCalendarAlt} /> Fecha de Creación
+                            </div>
+                            <p className="font-medium">{user.creationDate}</p>
+                        </div>
+                    </div>
+                 </div>
             </div>
-          </Account>
-        }
-        <h2 className=' text-3xl w-[80%] text-white'>Transactions Resume:</h2>
-        {
-          user.transactions?.length > 0 ? (<section className='w-[80%] flex flex-col items-center relative shadow-mdrounded-lg'>
-            <Table transactions={user.transactions}/>
-        </section>) : <h2 className='text-xl text-white font-semibold text-center'> This account has no transactions </h2>
-        }
-        
-      </div>
-    </main>
+
+            {/* Transactions Section */}
+            <div className="flex flex-col gap-4">
+                <h2 className='text-xl font-bold text-text-main px-2'>Historial de Movimientos</h2>
+                {user.transactions?.length > 0 ? (
+                    <Table transactions={user.transactions}/>
+                ) : (
+                    <div className='p-8 text-center bg-white rounded-lg shadow-sm border border-slate-200 text-text-muted'>
+                        No hay movimientos registrados en esta cuenta.
+                    </div>
+                )}
+            </div>
+        </>
+      )}
+    </div>
   )
 }
 

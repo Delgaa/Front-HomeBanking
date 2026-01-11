@@ -1,143 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+@import "tailwindcss";
+@config "../tailwind.config.js";
 
-#root{
-    display: flex;
-    background-color: #032030;
-}
-h1, h2, h3, p, span, button, a, label, table{
-    font-family: "Montserrat", sans-serif;
-    color: white;
-}
-
-.swal2-label{
-    color: #000;
+@layer base {
+  body {
+    @apply bg-surface-muted text-text-main font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
 }
 
-header{
-    background-color: #032030;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    width: 0px;
-    height: 100dvh;
-    position: absolute;
-    z-index: 30;
-    opacity: 0;
-    transition: all .5s ease;
+/* Custom Scrollbar for modern feel */
+::-webkit-scrollbar {
+  width: 8px;
 }
-
-#nav{
-    display: flex;
-    flex-direction: column;
-    padding-top: 5rem;
-    gap: 1rem;
-    width: 80%;
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
 }
-
-header button{
-    align-self: self-start;
-    margin: 0px 0px 10px 10px;
-}
-
-header a{
-    cursor: pointer;
-    position: relative;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 400ms;
-    transition-property: color;
-}
-
-header a:focus,header a:hover {
-    color: #fffb00;
-}
-
-header a:focus::after,header a:hover::after {
-    width: 100%;
-    left: 0%;
-}
-
-header a::after {
-    content: "";
-    pointer-events: none;
-    bottom: -2px;
-    left: 50%;
-    position: absolute;
-    width: 0%;
-    height: 2px;
-    background-color: #fff;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 400ms;
-    transition-property: width, left;
-}
-
-#moostNav{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 35px;
-    height: 35px;
-    opacity: 0.9;
-    z-index: 40;
-    margin: 16px;
-    position: fixed;
-    border: 1px solid #395886;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-header.isActive{
-    display: flex;
-    width: 175px;
-    opacity: 0.9;
-    position: fixed;
-}
-
-#contendHeader{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    position: fixed;
-    width: 150px;
-    height: 100dvh;
-    top: 120px;
-}
-
-#logout{
-    cursor: pointer;
-    position: fixed;
-    bottom: 5px;
-    left: 5px;
-}
-@media (min-width: 768px) {
-    #moostNav{
-        display: none;
-    }
-
-    header{
-        display: flex;
-        position: static;
-        width: 250px;
-        padding-top: 5rem;
-        opacity: 10;
-    }
-
-    header.isActive{
-        display: flex;
-        position: static;
-        width: 250px;
-        padding-top: 5rem;
-        opacity: 10;
-    }
-}
-.bgAccount{
-    background-image: radial-gradient(circle at 67% 83%, hsla(317,0%,96%,0.05) 0%, hsla(317,0%,96%,0.05) 1%,transparent 1%, transparent 5%,transparent 5%, transparent 100%),radial-gradient(circle at 24% 80%, hsla(317,0%,96%,0.05) 0%, hsla(317,0%,96%,0.05) 27%,transparent 27%, transparent 63%,transparent 63%, transparent 100%),radial-gradient(circle at 23% 5%, hsla(317,0%,96%,0.05) 0%, hsla(317,0%,96%,0.05) 26%,transparent 26%, transparent 82%,transparent 82%, transparent 100%),radial-gradient(circle at 21% 11%, hsla(317,0%,96%,0.05) 0%, hsla(317,0%,96%,0.05) 35%,transparent 35%, transparent 45%,transparent 45%, transparent 100%),radial-gradient(circle at 10% 11%, hsla(317,0%,96%,0.05) 0%, hsla(317,0%,96%,0.05) 21%,transparent 21%, transparent 81%,transparent 81%, transparent 100%),radial-gradient(circle at 19% 61%, hsla(317,0%,96%,0.05) 0%, hsla(317,0%,96%,0.05) 20%,transparent 20%, transparent 61%,transparent 61%, transparent 100%),radial-gradient(circle at 13% 77%, hsla(317,0%,96%,0.05) 0%, hsla(317,0%,96%,0.05) 63%,transparent 63%, transparent 72%,transparent 72%, transparent 100%),radial-gradient(circle at 30% 93%, hsla(317,0%,96%,0.05) 0%, hsla(317,0%,96%,0.05) 33%,transparent 33%, transparent 82%,transparent 82%, transparent 100%),linear-gradient(90deg, rgb(22, 176, 207),rgb(103, 7, 215));
-}
-.bgLoan{
-    background-image: linear-gradient(37deg, rgb(32, 218, 233),rgb(40, 21, 236));
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
 }

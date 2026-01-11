@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Client from '../components/Client'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
 import authActions from '../redux/actions/auth.actions';
@@ -31,24 +31,58 @@ const {current} = authActions;
   },[])
 
   return (
-    <main className='bg-[#395886] flex pb-5 flex-col items-center flex-1 md:rounded-l-3xl'>
-      <img className='w-[75px] self-end pt-5 pr-5 md:absolute' src='/logo.png'  alt="logo-bank" />
-      <div className='flex flex-wrap justify-center'>
-
-      {!loading && <h1 className='text-3xl text-center py-6 text-white'>Welcome, {user.firstName}!</h1>}
-
-        {loading && <h2 className='text-xl py-6 '>Loading...</h2>}
-
-        { user.accounts?.length > 0 ? <Client accounts={user.accounts}/> : <h2 className='text-xl text-center py-6 w-[80%]'>Does not have associated accounts</h2> }
-        {
-          user.accounts?.length == 3 ? <h2 className='text-xl py-6 text-center w-full'>You have 3 accounts, you can't ask for more</h2>  
-          : (<div className='w-full flex justify-center'>
-          <Link to={`/newAccount/${user.id}`}><button className='mt-5 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-900 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'><FontAwesomeIcon icon={faPlus} /> New account</button></Link>
-          </div>)
-        }
+    <div className='flex flex-col flex-1 w-full gap-8'>
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-2xl shadow-soft">
+         <div>
+            <h1 className='text-3xl font-bold text-primary-dark'>
+              Hola, {loading ? '...' : user.firstName}
+            </h1>
+            <p className="text-text-muted mt-1">Bienvenido a tu banca online</p>
+         </div>
+         <div className="hidden md:block">
+            <span className="text-sm font-medium px-3 py-1 bg-green-100 text-green-700 rounded-full">
+               Estado: Activo
+            </span>
+         </div>
       </div>
-      
-    </main>
+
+      {loading && (
+        <div className="flex justify-center p-10">
+           <FontAwesomeIcon icon={faSpinner} spin className="text-4xl text-primary" />
+        </div>
+      )}
+
+      {/* Accounts Section */}
+      {!loading && (
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between items-center">
+             <h2 className="text-xl font-bold text-text-main">Tus Cuentas</h2>
+             {user.accounts?.length < 3 && (
+                <Link to={`/newAccount/${user.id}`}>
+                  <button className='py-2 px-4 inline-flex items-center gap-2 text-sm font-semibold rounded-lg bg-primary hover:bg-primary-dark text-white transition-all shadow-md active:scale-95'>
+                    <FontAwesomeIcon icon={faPlus} /> Nueva cuenta
+                  </button>
+                </Link>
+             )}
+          </div>
+          
+          {user.accounts?.length > 0 ? (
+             <Client accounts={user.accounts}/> 
+          ) : (
+             <div className="bg-white p-8 rounded-xl shadow-soft text-center text-text-muted">
+                No tienes cuentas asociadas. ¡Crea una para comenzar!
+             </div>
+          )}
+
+          {user.accounts?.length === 3 && (
+            <p className="text-sm text-text-muted text-center mt-2">
+              Has alcanzado el límite de 3 cuentas.
+            </p>
+          )}
+        </div>
+      )}
+    </div>
   )
 }
 

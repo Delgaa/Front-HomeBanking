@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import OptionAccount from '../components/OptionAccount';
 import { useDispatch, useSelector } from 'react-redux';
 import authActions from '../redux/actions/auth.actions';
 import { Link, useNavigate } from 'react-router-dom';
@@ -92,110 +91,132 @@ const Transaction = () => {
     }
 
     return (
-        <main className='bg-[#395886] flex pb-5 flex-col items-center flex-1 md:rounded-l-3xl'>
-            <img className='w-[75px] self-end pt-5 pr-5 md:absolute' src='/logo.png' alt="logo-bank" />
-            <h1 className='text-3xl text-center py-6'>Make a transfer</h1>
-            <div className='border rounded-xl p-6 w-[90%] md:w-[70%] lg:w-[50%] opacity-95 bg-[#004d74] mb-5 flex justify-center'>
-                <form onSubmit={handleSubmit} className='flex flex-col w-9/12'>
-                        <label htmlFor="tipoDestino" className='flex flex-col gap-2' onChange={handLeChangeTypeDestination}>Type of destination:
-                            <div className='flex gap-5'>
-                                <label className='flex gap-2'>
-                                <input 
-                                type="radio" name="tipoDestino" value="propio" />
-                                    Own
-                                </label>
+        <div className='flex flex-col flex-1 w-full gap-8'>
+            {/* Header */}
+            <div className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-2xl shadow-soft">
+                <div>
+                    <h1 className='text-3xl font-bold text-primary-dark'>
+                        Realizar Transferencia
+                    </h1>
+                    <p className="text-text-muted mt-1">Envía dinero a cuentas propias o de terceros</p>
+                </div>
+            </div>
 
-                                <label className='flex gap-2'>
-                                <input type="radio" name="tipoDestino" value="otros" />
-                                    Other
+            {/* Form Section */}
+            <div className="flex justify-center">
+                <div className='bg-white p-8 rounded-2xl shadow-soft w-full md:w-3/4 lg:w-2/3'>
+                    <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
+                        
+                        {/* Destination Type */}
+                        <div>
+                            <label className='block mb-2 text-sm font-medium text-text-main'>Tipo de destino</label>
+                            <div className='flex gap-6' onChange={handLeChangeTypeDestination}>
+                                <label className='flex items-center gap-2 cursor-pointer'>
+                                    <input type="radio" name="tipoDestino" value="propio" className="w-4 h-4 text-primary focus:ring-primary border-gray-300" />
+                                    <span className="text-text-main">Cuentas Propias</span>
+                                </label>
+                                <label className='flex items-center gap-2 cursor-pointer'>
+                                    <input type="radio" name="tipoDestino" value="otros" className="w-4 h-4 text-primary focus:ring-primary border-gray-300" />
+                                    <span className="text-text-main">Terceros</span>
                                 </label>
                             </div>
-                        </label>
-                    <div>
-                        <label className='flex flex-col gap-2'>Account Origin:
-                            <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-sky-700 dark:border-blue-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                            name='numberOrigin' 
-                            onChange={handLeChange}>
-                                <option value=''>Select account origin</option>
-                                {
-                                    Object.values(userData)?.map((account, index) => (
-                                        <option key={index} value={account.number}>{account.number}</option>
-                                    ))
-                                }
+                        </div>
+
+                        {/* Origin Account */}
+                        <div>
+                            <label className='block mb-2 text-sm font-medium text-text-main'>Cuenta de Origen</label>
+                            <select 
+                                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 transition-colors'
+                                name='numberOrigin' 
+                                onChange={handLeChange}
+                            >
+                                <option value=''>Selecciona una cuenta</option>
+                                {Object.values(userData)?.map((account, index) => (
+                                    <option key={index} value={account.number}>{account.number} - Saldo: ${account.balance}</option>
+                                ))}
                             </select>
-                        </label>
-                            {
-                                errorMessageOrigin ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageOrigin}</p> : <div className=' h-5'></div>
-                            }
-                    </div>
-                    <div>
-                        <label className='flex flex-col gap-2'>Account Destination:
-                            {
-                                (tipoDestino == 'propio') && (
-                                    <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-sky-700 dark:border-blue-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            {errorMessageOrigin && <p className='mt-1 text-red-500 text-sm'>{errorMessageOrigin}</p>}
+                        </div>
+
+                        {/* Destination Account */}
+                        <div>
+                            <label className='block mb-2 text-sm font-medium text-text-main'>Cuenta de Destino</label>
+                            {tipoDestino === 'propio' && (
+                                <select 
+                                    className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 transition-colors'
                                     name='numberDestination'
-                                    onChange={handLeChange}> 
-                                        <option value=''>Select account destination</option>
-                                        {
-                                            Object.values(userData)?.filter((account) => account.number != newTransaction.numberOrigin)
-                                                                .map((account2, index) => (<option key={index} value={account2.number}>{account2.number}</option>))
-                                        }
-                                    </select>
-                                )
-                            }
-                            {
-                                (tipoDestino == 'otros') && (
-                                    <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-sky-700 dark:border-blue-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                                    onChange={handLeChange}
+                                >
+                                    <option value=''>Selecciona cuenta destino</option>
+                                    {Object.values(userData)?.filter((account) => account.number != newTransaction.numberOrigin)
+                                        .map((account2, index) => (<option key={index} value={account2.number}>{account2.number}</option>))
+                                    }
+                                </select>
+                            )}
+                            {tipoDestino === 'otros' && (
+                                <input 
+                                    className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 transition-colors'
                                     name='numberDestination' 
                                     type="text" 
-                                    placeholder='VIN-12345678'
-                                    onChange={handLeChange}/>
-                                )
-                            }
-                            {
-                                (tipoDestino == '') && (
-                                    <p className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-sky-700 dark:border-blue-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                                    >Select option first</p>
-                                )
-                            }
-                        </label>
-                            {
-                                errorMessageDestination ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageDestination}</p> : <div className=' h-5'></div>
-                            }
-                    </div>
-                    <div>
-                        <label className='flex flex-col gap-2'>Amount:
-                        <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-sky-700 dark:border-blue-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                        name='amount' 
-                        type="number" 
-                        onChange={handLeChange}
-                        min={'1'}
-                        placeholder='E.G. 1111'/>
-                        
-                        </label>
-                        {
-                            errorMessageAmount ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageAmount}</p> : <div className=' h-5'></div>
-                        }
-                    </div>
-                    <div>
-                        <label className='flex flex-col gap-2'>Description:
-                        <input className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-sky-700 dark:border-blue-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' 
-                        name='detail' 
-                        type="text" 
-                        onChange={handLeChange} 
-                        placeholder='E.G. Salary'/>
-                        </label>
-                        {
-                            errorMessageDescription ? <p className='text-red-400 font-medium text-sm text-start w-full'>{errorMessageDescription}</p> : <div className=' h-5'></div>
-                        }
-                    </div>
-                    <div className='flex gap-6 justify-center'>
-                        <button type='submit' className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'>Transfer</button>
-                        <Link to ="/home"><button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' type="button" >Cancel</button></Link>
-                    </div>
-                </form>
+                                    placeholder='Ej: VIN-12345678'
+                                    onChange={handLeChange}
+                                />
+                            )}
+                            {tipoDestino === '' && (
+                                <div className='p-2.5 text-sm text-text-muted bg-gray-100 rounded-lg border border-gray-200'>
+                                    Selecciona primero el tipo de destino
+                                </div>
+                            )}
+                            {errorMessageDestination && <p className='mt-1 text-red-500 text-sm'>{errorMessageDestination}</p>}
+                        </div>
+
+                        {/* Amount */}
+                        <div>
+                            <label className='block mb-2 text-sm font-medium text-text-main'>Monto</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <span className="text-gray-500">$</span>
+                                </div>
+                                <input 
+                                    className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-8 p-2.5 transition-colors'
+                                    name='amount' 
+                                    type="number" 
+                                    onChange={handLeChange}
+                                    min={'1'}
+                                    placeholder='0.00'
+                                />
+                            </div>
+                            {errorMessageAmount && <p className='mt-1 text-red-500 text-sm'>{errorMessageAmount}</p>}
+                        </div>
+
+                        {/* Description */}
+                        <div>
+                            <label className='block mb-2 text-sm font-medium text-text-main'>Descripción</label>
+                            <input 
+                                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 transition-colors'
+                                name='detail' 
+                                type="text" 
+                                onChange={handLeChange} 
+                                placeholder='Ej: Alquiler, Compras varias...'
+                            />
+                            {errorMessageDescription && <p className='mt-1 text-red-500 text-sm'>{errorMessageDescription}</p>}
+                        </div>
+
+                        {/* Actions */}
+                        <div className='flex gap-4 justify-end mt-4'>
+                            <Link to="/home">
+                                <button type="button" className='py-2.5 px-5 text-sm font-medium text-text-muted focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary focus:z-10 focus:ring-4 focus:ring-gray-200 transition-all'>
+                                    Cancelar
+                                </button>
+                            </Link>
+                            <button type='submit' className='text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none transition-all shadow-md hover:shadow-lg'>
+                                Transferir
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        </main>
     );
 };
 
